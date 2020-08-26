@@ -5,8 +5,8 @@
     @csrf
     <div class="content-form" method="post">
         <div class="form-group">
-            <label for="exampleFormControlInput1">名前</label>
-            <input type="text" class="form-control" name="name">
+            <label for="exampleFormControlInput1">タイトル</label>
+            <input type="text" class="form-control" name="title">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">するべきこと</label>

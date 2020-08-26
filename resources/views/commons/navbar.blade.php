@@ -14,10 +14,10 @@
         <a class="navbar-brand" href='/'>Todolist</a>
 
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
-         <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
 
-         <div class="collapse navbar-collapse" id="nav-bar">
+        <div class="collapse navbar-collapse" id="nav-bar">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if(Auth::check())
@@ -33,18 +33,20 @@
                     </ul>
                 </li>
                 @else
-               <li class="nav-item dropdown">
-                    <a href="#" class="nav link dropdown-toggle" data-toggle="dropdown">一覧</a>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav link dropdown-toggle" data-toggle="dropdown">未登録方向け</a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item">{{ link_to_route('register' , '登録' , ['class'=> 'nav-link']) }}</li>
+                        {{-- ユーザー登録へのリンク --}}
+                        <li class="nav-item">{!! link_to_route('signup.get' , '登録'  , ['class' => 'nav-link']) !!}</li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item">{{ link_to_route('login' , 'ログイン'  , ['class'=> 'nav-link']) }}</li>
+                        {{-- ログインページへのリンク --}}
+                        <li class="nav-item">{!! link_to_route('login', 'ログイン', ['class' => 'nav-link']) !!}</li>
                         <li class="dropdown-divider"></li>
                     </ul>
-               </li>
+                </li>
                 @endif
             </ul>
-         </div>
+        </div>
         </nav>
     </div>
 </body>

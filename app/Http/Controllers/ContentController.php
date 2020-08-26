@@ -14,8 +14,11 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::all();
-        return view('content.index', $contents);
+        $contents = Content::orderby('created_at' , 'desc')->paginate(6);
+
+        return view('welcome', [
+            'contents' => $contents
+        ]);
     }
 
     /**
@@ -38,7 +41,7 @@ class ContentController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'name' => 'required',
+            'title' => 'required',
             'content' => 'required|max:255'
         ]);
         $content = new Content;
