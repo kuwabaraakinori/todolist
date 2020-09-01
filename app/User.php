@@ -37,9 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function content()
+    public function contents()
     {
-        return $this->hasMany('App\Content');
+        return $this->hasMany(Content::class);
+    }
+
+    public function loadRelationshipCounts(){
+        $this->loadCount(['contents']);
     }
 
 }

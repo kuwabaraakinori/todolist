@@ -2,38 +2,43 @@
 @section('content')
     @if (count($contents)>0)
     <div class="container">
-        <h2 class="title" style="text-center font-family=serif">本日の投稿</h2>
+    <h2 class="title" style="font-family:serif; text-align:center; margin-top:20px; border-bottom:solid 2px #CC99CC">投稿一覧</h2>
+    <div class="row">
         @foreach ($contents as $content)
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">id</th>
-                <th scope="col">タイトル</th>
-                <th scope="col">内容</th>
-                <th scope="col">投稿時間</th>
-                <th scope="col">完了</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">{{ $content->id }}</th>
-                <td>{{ $content->title }}</td>
-                <td>{{ $content->content }}</td>
-                <td>{{ $content->created_at }}</td>
-                <td>
-                    @if (Auth::check())
-                        <li class="link">{{ link_to_route('content/{content}/edit' , '編集' , [$content->id] , ["class" => 'btn btn-success']) }}</li>
-                        <li class="link">{{ link_to_route('content/{content}' , '削除' , ['class' => 'btn btn-danger']) }}</li>
-                    @endif
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-4 text-left mt-4">
+
+          <div class="card" style="margin-bottom: 20px;">
+              <div class="card-title" style="background-color: rgba(0,0,0,.03);">
+                  <p class="text-black-50" style="text-align:center; font-weight:bolder; font-family:serif; margin-top: 10px;">{{ $content->title }}</p>
+              </div>
+              <div class="card-body">
+                  <p class="text-black-50"> {{ $content->content }} </p>
+              </div>
+
+            <div class="card-footer text-right">
+              @if(Auth::id() === $content->user_id)
+                {!! Form::open(['route' => ['content.edit' , $content->id] , 'method' => 'get']) !!}
+                {!! Form::submit('編集', ['class' => 'text-info']) !!}
+                {!! Form::close() !!}
+
+                {!! Form::open(['route' => ['content.destroy', $content->id], 'method' => 'delete']) !!}
+                {!! Form::submit('完了', ['class' => 'text-info']) !!}
+                {!! Form::close() !!}
+              @else
+              <p class="text">{{ $content->created_at }}</p>
+              @endif
+            </div>
+
+          </div>
+
+        </div>
         @endforeach
-    </div>
+
+      </div>
+  </div>
     @else
-    <h2 class="title" style="text-center font-family=serif">本日の投稿はありません</h2>
+    <h2 class="title"  style="font-family:serif; text-align:center; margin-top:20px;">本日の投稿はありません</h2>
     @endif
-{{ $contents->links() }}
+    <span style="text-align: center;">{{ $contents->links() }}</span>
 @endsection
 

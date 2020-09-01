@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/navbar.css" type="text/css">
     <title>Navbar</title>
 </head>
 <body>
@@ -24,11 +25,13 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav link dropdown-toggle" data-toggle="dropdown">{{Auth::user()->name }}</a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item">{{ link_to_route('content/create', '投稿する' , ['class'=> 'nav-link']) }}</li>
+                        <li class="dropdown-item"><a href="{{route('content.create')}}">投稿</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item">{{ link_to_route('content/{content}/edit' , '編集する' , [$content->id] , ['class'=> 'nav-link']) }}</li>
+                        <li class="dropdown-item"><input type="hidden" name="id" value="{{Auth::id()}}">{!! link_to_route('user.index' , 'ユーザー' ) !!}</li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><input type="hidden" name="id" value="{{Auth::id()}}">{!! link_to_route('users.index' , 'ユーザー' ) !!}<i class="fas fa-user-friends ml-sm-2"></i></li>
+                        <li class="dropdown-item">
+                        <a href="{{route('logout')}}"  method="get">ログアウト</a>
+                        </li>
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>
@@ -36,12 +39,12 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav link dropdown-toggle" data-toggle="dropdown">未登録方向け</a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        {{-- ユーザー登録へのリンク --}}
-                        <li class="nav-item">{!! link_to_route('signup.get' , '登録'  , ['class' => 'nav-link']) !!}</li>
-                        <li class="dropdown-divider"></li>
-                        {{-- ログインページへのリンク --}}
-                        <li class="nav-item">{!! link_to_route('login', 'ログイン', ['class' => 'nav-link']) !!}</li>
-                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-divider">
+                            <li class="nav-item"><a href="{{ route('register') }}">登録</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li class="nav-item"><a href="{{route('login')}}">ログイン</a></li>
+                            <li class="dropdown-divider"></li>
+                        </li>
                     </ul>
                 </li>
                 @endif

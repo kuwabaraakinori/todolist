@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Content;
+
 use Illuminate\Http\Request;
 
-class ContentController extends Controller
+use App\User;
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,10 +15,9 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::orderby('created_at' , 'desc')->paginate(9);
-
-        return view('welcome', [
-            'contents' => $contents
+        $users = User::all();
+        return view('users.index' , [
+            'users' => $users
         ]);
     }
 
@@ -27,7 +28,7 @@ class ContentController extends Controller
      */
     public function create()
     {
-        return view('contents.form');
+        //
     }
 
     /**
@@ -38,18 +39,7 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'title' => 'required|max:50',
-            'content' => 'required|max:255'
-        ]);
-        $content = new Content;
-        $content->user_id = $request->user_id;
-        $content->title = $request->title;
-        $content->content = $request->content;
-        $content->save();
-
-        return redirect('/');
+        //
     }
 
     /**
@@ -60,12 +50,21 @@ class ContentController extends Controller
      */
     public function show($id)
     {
-        /*
-        if(\Auth::id()===$content->id){
-            $contents = Content::all();
-        }
-        return view('contents.show');
-        */
+        $data = [];
+
+        $user =  User::findOrFail($id);
+        $user->loadRelationshipCounts();
+
+        $content = $user->contents()->orderBy('created_at', 'desc')->paginate(10);
+
+
+        $data =[
+            'user' => $user,
+            'contents' => $content
+        ];
+
+        return view ('users.show' , $data);
+
     }
 
     /**
@@ -76,10 +75,7 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
-        $content = Content::find($id);
-        return view('contents.edit' , [
-            'content' => $content
-        ]);
+
     }
 
     /**
@@ -91,14 +87,7 @@ class ContentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required|max:50',
-            'content' => 'required|max:255'
-        ]);
-            $content = Content::find($id);
-            dd($content);
-            $content->save();
-            return redirect('/');
+        //
     }
 
     /**
@@ -109,13 +98,6 @@ class ContentController extends Controller
      */
     public function destroy($id)
     {
-        $content = Content::findOrFail($id);
-        $content->delete();
-        /*
-        if(\Auth::id()===$content->id){
-            $content->delete();
-        }
-        */
-        return redirect('/');
+        //
     }
 }
